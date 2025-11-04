@@ -1,138 +1,137 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <math.h>
+#include <stdio.h>   // biblioteca padrão para entrada/saída (printf, scanf)
+#include <stdlib.h>  // biblioteca padrão (funções utilitárias, aqui não usada diretamente)
+#include <string.h>  // para operações com strings (ex: strcspn se quiser remover '\n')
+#include <math.h>    // para funções matemáticas (pow, fabs)
 
-#define max 5//alunos maximos 
+#define max 5//alunos maximos  // define uma constante nomeada "max" com valor 5
 
-
-	char alunos [max][30];
-	float dados [max][3];
-	float imcs [max];
-	int i,qts;
+	char alunos [max][30];   // matriz de chars: guarda até 'max' nomes, cada nome até 29+terminador
+	float dados [max][3];    // matriz de floats: para cada aluno (linha) temos 3 dados (peso, altura, idade)
+	float imcs [max];        // vetor de floats para armazenar o IMC calculado de cada aluno
+	int i,qts;               // variáveis globais: i -> índice de laços; qts -> quantidade de alunos cadastrados
 	
 	
 //funçao 1 le e armazenas os nomes	
 void LerAlunos(){
 	do{
-		printf("\nquantos alunos quer cadastrar??: ");
-		scanf("%i", &qts);
-		getchar(); // limpar o enter
+		printf("\nquantos alunos quer cadastrar??: "); // pede ao usuário quantos alunos serão cadastrados
+		scanf("%i", &qts);                             // lê um inteiro e armazena em qts
+		getchar(); // limpar o enter                         // consome o '\n' sobrando no buffer após scanf
 		if (qts > max || qts < 0 ){
-			printf("quantidade limite atingida!!");
+			printf("quantidade limite atingida!!");      // avisa se o número digitado é inválido (>max ou negativo)
 		}
-	}while(qts > max || qts <= 0);
+	}while(qts > max || qts <= 0);                      // repete enquanto qts for maior que max ou menor/igual a 0
 
 	for (i=0;i< qts;i++){	
 		printf("Digite o nome do aluno %i: ", i + 1);// so para o usuario ver o primeiro nome como 1
-		fgets(alunos[i],30,stdin);	
+		fgets(alunos[i],30,stdin);                 // lê a linha (com espaços) e armazena na linha i da matriz alunos
 	}	
 }
 
 //funçao 2 le e armazena dados dos alunos
 void LerDados() {
-    printf("\n--- Cadastro de Dados Fisicos ---\n");
+    printf("\n--- Cadastro de Dados Fisicos ---\n"); // cabeçalho informativo antes de iniciar o cadastro
 
-    for (i = 0; i < qts; i++) {
-        printf("\nAluno %d: %s\n", i + 1, alunos[i]);
-        printf("-----------------------------\n");
+    for (i = 0; i < qts; i++) {                    // loop para cada aluno cadastrado
+        printf("\nAluno %d: %s\n", i + 1, alunos[i]); // mostra o número do aluno e o nome lido anteriormente
+        printf("-----------------------------\n");  // separador visual
 
-        printf("Peso (em kg): ");
-        scanf("%f", &dados[i][0]);
+        printf("Peso (em kg): ");                   // pede o peso em kg
+        scanf("%f", &dados[i][0]);                  // armazena em dados[i][0] (coluna 0 = peso)
 
-        printf("Altura (em cm): ");
-        scanf("%f", &dados[i][1]);
+        printf("Altura (em cm): ");                 // pede a altura em centímetros
+        scanf("%f", &dados[i][1]);                  // armazena em dados[i][1] (coluna 1 = altura)
 
-        printf("Idade (em anos): ");
-        scanf("%f", &dados[i][2]);
+        printf("Idade (em anos): ");                // pede a idade em anos
+        scanf("%f", &dados[i][2]);                  // armazena em dados[i][2] (coluna 2 = idade)
 
-        printf("-----------------------------\n");
+        printf("-----------------------------\n");  // separador visual após os dados do aluno
     }
 }
 
 
 //funcao 3 retornar calculo imc
 float CalcularImc(float peso , float altura){
-	 altura = altura / 100.0; // converter cm para m
-    return peso / pow(altura, 2); // pow(x,2) = x²
+	 altura = altura / 100.0; // converter cm para m         // converte altura em cm para metros (ex: 170 -> 1.70)
+    return peso / pow(altura, 2); // pow(x,2) = x²         // calcula e retorna o IMC: peso / (altura^2)
 }	
 
 // funcao 4 armazenar imcs nos alunos	
-int CalcularImcs(){
+void CalcularImcs(){ // <-- corrigido para void
 	for (i = 0; i < qts;i++){
-		imcs [i] = CalcularImc(dados[i][0],dados[i][1]); 
+		imcs [i] = CalcularImc(dados[i][0],dados[i][1]); // usa peso e altura armazenados para preencher imcs[i]
 	}
 }	
 
 // funcao 5 voltar indices do aluno com o imc mais proximo de 22  
 int MelhorImc(){
-	int indice = 0;
-	float menorDiferenca = fabs(imcs[0] - 22.0);
-	for (i = 0; i < qts; i++ ){
-		float diferenca = fabs(imcs[i] - 22.0 );
-		if( diferenca < menorDiferenca ){
-			menorDiferenca = diferenca;
-			indice = i;
+	int indice = 0;                                     // inicializa o índice que será retornado (começa em 0)
+	float menorDiferenca = fabs(imcs[0] - 22.0);        // calcula a diferença absoluta do primeiro IMC para 22 (referência)
+	for (i = 0; i < qts; i++ ){                         // percorre todos os alunos
+		float diferenca = fabs(imcs[i] - 22.0 );        // calcula a diferença absoluta do IMC atual para 22
+		if( diferenca < menorDiferenca ){               // se essa diferença for menor que a menor encontrada
+			menorDiferenca = diferenca;                 // atualiza a menor diferença
+			indice = i;                                // salva o índice do aluno atual como o melhor até agora
 		}	
 	}
-	return indice;
+	return indice;                                     // retorna o índice do aluno cujo IMC está mais próximo de 22
 }
 
 // funcao 6 ixibir nomes dos alunos e imc deles 
 void exibirAlunos(){
-	printf("\n--- Resultados dos Alunos ---\n");
-    for (i = 0; i < qts; i++) {
-    	printf("Nome: %s | IMC: %.2f\n", alunos[i], imcs[i]);
+	printf("\n--- Resultados dos Alunos ---\n");         // cabeçalho para a listagem de resultados
+    for (i = 0; i < qts; i++) {                        // percorre cada aluno
+    	printf("Nome: %s | IMC: %.2f\n", alunos[i], imcs[i]); // exibe o nome (string) e o IMC formatado com 2 casas
 	}
 }
 
 // Função Extra (Bônus): Altera os dados de um aluno específico e recalcula o IMC
 // Utiliza passagem por referência (arrays são passados por referência implicitamente)
 void atualizarDados(int indice, float dados[][3], float imcs[]) {
-    printf("Atualizando dados do aluno %s:\n", alunos[indice]);
-    printf("Digite o novo peso (kg) e nova altura (m): ");
-    scanf("%f %f", &dados[indice][0], &dados[indice][1]);
-    getchar();
+    printf("Atualizando dados do aluno %s:\n", alunos[indice]); // informa qual aluno será atualizado
+    printf("Digite o novo peso (kg) e nova altura (cm): ");     // pede novo peso e nova altura (em cm)
+    scanf("%f %f", &dados[indice][0], &dados[indice][1]);      // lê e armazena os dois valores nas colunas apropriadas
+    getchar();                                                 // consome o '\n' remanescente no buffer
     //recalcula o imc 
-    imcs[indice] = CalcularImc(dados[indice][0], dados[indice][1]); // ? CORRIGIDO
-    printf("Dados atualizados! Novo IMC: %.2f\n", imcs[indice]);
+    imcs[indice] = CalcularImc(dados[indice][0], dados[indice][1]); // recalcula o IMC usando os novos valores
+    printf("Dados atualizados! Novo IMC: %.2f\n", imcs[indice]);     // confirma a atualização e mostra o novo IMC
 }
 
 
 int main(int argc, char *argv[]) {
 	
-	LerAlunos();
+	LerAlunos();      // chama a função que lê e armazena os nomes dos alunos
 	
-	LerDados();
+	LerDados();       // chama a função que lê os dados físicos de cada aluno
 	
-	CalcularImcs();
+	CalcularImcs();   // calcula os IMCs para todos os alunos cadastrados
 	
-	exibirAlunos();
+	exibirAlunos();   // exibe os nomes e IMCs na tela
 	
-	
-	int melhorIndice = MelhorImc();
-	 printf("\nO aluno com o melhor equilibrio fisico e: %s (IMC: %.2f)\n", alunos[melhorIndice], imcs[melhorIndice]);
+	// exibir resultados 
+	int melhorIndice = MelhorImc(); // obtém o índice do aluno com IMC mais próximo de 22
+	 printf("\nO aluno com o melhor equilibrio fisico e: %s (IMC: %.2f)\n", alunos[melhorIndice], imcs[melhorIndice]); // mostra o resultado
 	
 	// Desafio Extra: Opção para atualizar dados de um aluno
     char opcao;
-    printf("\nDeseja atualizar os dados de algum aluno? (s/n): ");
-    scanf(" %c", &opcao); // Espaço antes de %c para ignorar whitespace
-    if (opcao == 's' || opcao == 'S') {
+    printf("\nDeseja atualizar os dados de algum aluno? (s/n): "); // pergunta ao usuário se deseja atualizar
+    scanf(" %c", &opcao); // Espaço antes de %c para ignorar whitespace // lê a opção do usuário (s/n)
+    if (opcao == 's' || opcao == 'S') {                           // se o usuário escolher 's' ou 'S'
         int indice;
-        printf("Digite o numero do aluno (1 a %d): ", qts);
-        scanf("%d", &indice);
-        indice--; // Ajustar para índice 0-based
-        if (indice >= 0 && indice < qts) {
-            atualizarDados(indice, dados, imcs);
+        printf("Digite o numero do aluno (1 a %d): ", qts);		 // pede o número do aluno para atualizar
+        scanf("%d", &indice);                                     // lê o número (1-based)
+        indice--; // Ajustar para índice 0-based                      // ajusta para o índice do array (0-based)
+        if (indice >= 0 && indice < qts) {                        // verifica se o índice é válido
+            atualizarDados(indice, dados, imcs);                  // chama a função para atualizar dados desse aluno
             // Re-exibir resultados após atualização
-            exibirAlunos();
+            exibirAlunos();                                       // mostra a lista atualizada de alunos e IMCs
             // Recalcular o melhor IMC se necessário
-            melhorIndice = MelhorImc();
-            printf("\nApos atualizacao, o aluno com o melhor equilibrio fisico e: %s (IMC: %.2f)\n", alunos[melhorIndice], imcs[melhorIndice]);
+            melhorIndice = MelhorImc();                           // recalcula qual aluno está mais próximo de 22
+            printf("\nApos atualizacao, o aluno com o melhor equilibrio fisico e: %s (IMC: %.2f)\n", alunos[melhorIndice], imcs[melhorIndice]); // exibe o novo resultado
         } else {
-            printf("Índice inválido!\n");
+            printf("Índice invalido!\n");                         // aviso caso o índice esteja fora do intervalo
         }
     }
 	
-	return 0;
+	return 0; // finaliza o programa com código de saída 0 (sem erros)
 }
