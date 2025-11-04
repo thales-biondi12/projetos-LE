@@ -1,0 +1,138 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <math.h>
+
+#define max 5//alunos maximos 
+
+
+	char alunos [max][30];
+	float dados [max][3];
+	float imcs [max];
+	int i,qts;
+	
+	
+//funçao 1 le e armazenas os nomes	
+void LerAlunos(){
+	do{
+		printf("\nquantos alunos quer cadastrar??: ");
+		scanf("%i", &qts);
+		getchar(); // limpar o enter
+		if (qts > max || qts < 0 ){
+			printf("quantidade limite atingida!!");
+		}
+	}while(qts > max || qts <= 0);
+
+	for (i=0;i< qts;i++){	
+		printf("Digite o nome do aluno %i: ", i + 1);// so para o usuario ver o primeiro nome como 1
+		fgets(alunos[i],30,stdin);	
+	}	
+}
+
+//funçao 2 le e armazena dados dos alunos
+void LerDados() {
+    printf("\n--- Cadastro de Dados Fisicos ---\n");
+
+    for (i = 0; i < qts; i++) {
+        printf("\nAluno %d: %s\n", i + 1, alunos[i]);
+        printf("-----------------------------\n");
+
+        printf("Peso (em kg): ");
+        scanf("%f", &dados[i][0]);
+
+        printf("Altura (em cm): ");
+        scanf("%f", &dados[i][1]);
+
+        printf("Idade (em anos): ");
+        scanf("%f", &dados[i][2]);
+
+        printf("-----------------------------\n");
+    }
+}
+
+
+//funcao 3 retornar calculo imc
+float CalcularImc(float peso , float altura){
+	 altura = altura / 100.0; // converter cm para m
+    return peso / pow(altura, 2); // pow(x,2) = x²
+}	
+
+// funcao 4 armazenar imcs nos alunos	
+int CalcularImcs(){
+	for (i = 0; i < qts;i++){
+		imcs [i] = CalcularImc(dados[i][0],dados[i][1]); 
+	}
+}	
+
+// funcao 5 voltar indices do aluno com o imc mais proximo de 22  
+int MelhorImc(){
+	int indice = 0;
+	float menorDiferenca = fabs(imcs[0] - 22.0);
+	for (i = 0; i < qts; i++ ){
+		float diferenca = fabs(imcs[i] - 22.0 );
+		if( diferenca < menorDiferenca ){
+			menorDiferenca = diferenca;
+			indice = i;
+		}	
+	}
+	return indice;
+}
+
+// funcao 6 ixibir nomes dos alunos e imc deles 
+void exibirAlunos(){
+	printf("\n--- Resultados dos Alunos ---\n");
+    for (i = 0; i < qts; i++) {
+    	printf("Nome: %s | IMC: %.2f\n", alunos[i], imcs[i]);
+	}
+}
+
+// Função Extra (Bônus): Altera os dados de um aluno específico e recalcula o IMC
+// Utiliza passagem por referência (arrays são passados por referência implicitamente)
+void atualizarDados(int indice, float dados[][3], float imcs[]) {
+    printf("Atualizando dados do aluno %s:\n", alunos[indice]);
+    printf("Digite o novo peso (kg) e nova altura (m): ");
+    scanf("%f %f", &dados[indice][0], &dados[indice][1]);
+    getchar();
+    //recalcula o imc 
+    imcs[indice] = CalcularImc(dados[indice][0], dados[indice][1]); // ? CORRIGIDO
+    printf("Dados atualizados! Novo IMC: %.2f\n", imcs[indice]);
+}
+
+
+int main(int argc, char *argv[]) {
+	
+	LerAlunos();
+	
+	LerDados();
+	
+	CalcularImcs();
+	
+	exibirAlunos();
+	
+	
+	int melhorIndice = MelhorImc();
+	 printf("\nO aluno com o melhor equilibrio fisico e: %s (IMC: %.2f)\n", alunos[melhorIndice], imcs[melhorIndice]);
+	
+	// Desafio Extra: Opção para atualizar dados de um aluno
+    char opcao;
+    printf("\nDeseja atualizar os dados de algum aluno? (s/n): ");
+    scanf(" %c", &opcao); // Espaço antes de %c para ignorar whitespace
+    if (opcao == 's' || opcao == 'S') {
+        int indice;
+        printf("Digite o numero do aluno (1 a %d): ", qts);
+        scanf("%d", &indice);
+        indice--; // Ajustar para índice 0-based
+        if (indice >= 0 && indice < qts) {
+            atualizarDados(indice, dados, imcs);
+            // Re-exibir resultados após atualização
+            exibirAlunos();
+            // Recalcular o melhor IMC se necessário
+            melhorIndice = MelhorImc();
+            printf("\nApos atualizacao, o aluno com o melhor equilibrio fisico e: %s (IMC: %.2f)\n", alunos[melhorIndice], imcs[melhorIndice]);
+        } else {
+            printf("Índice inválido!\n");
+        }
+    }
+	
+	return 0;
+}
