@@ -1,9 +1,9 @@
-#include <stdio.h>   // biblioteca padrão para entrada/saída (printf, scanf)
-#include <stdlib.h>  // biblioteca padrão (funções utilitárias, aqui não usada diretamente)
-#include <string.h>  // para operações com strings (ex: strcspn se quiser remover '\n')
+#include <stdio.h>   
+#include <stdlib.h>  
+#include <string.h>  
 #include <math.h>    // para funções matemáticas (pow, fabs)
 
-#define max 5//alunos maximos  // define uma constante nomeada "max" com valor 5
+#define max 5 // define uma constante nomeada "max" com valor 5
 
 	char alunos [max][30];   // matriz de chars: guarda até 'max' nomes, cada nome até 29+terminador
 	float dados [max][3];    // matriz de floats: para cada aluno (linha) temos 3 dados (peso, altura, idade)
