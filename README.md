@@ -55,6 +55,10 @@ projetos-PAW/
 
 **Thales Andrade Biondi**
 
+**Italo galvao**
+
+**Pedro antoniassi**
+
 ---
 
 ## ⚙️ Como Executar
