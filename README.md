@@ -15,7 +15,7 @@ Os projetos foram organizados por bimestre, mostrando a evolução dos conceitos
 ## 📂 Estrutura dos Projetos
 
 ```bash
-projetos-PAW/
+projetos-LE/
 │
 ├── projeto1bim/  # Cálculos básicos (área e volume)
 ├── projeto2bim/  # Conversão de bases numéricas
