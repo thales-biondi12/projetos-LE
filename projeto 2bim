@@ -9,23 +9,23 @@ int main() {
 
     do {
         printf("\n=== CONVERSOR DE BASES ===\n");
-        printf("1. Decimal para Binário\n");
+        printf("1. Decimal para Binario\n");
         printf("2. Decimal para Hexadecimal\n");
         printf("3. Decimal para Octal\n");
         printf("4. Octal para Decimal\n");
-        printf("5. Binário de 8 dígitos para Decimal\n");
-        printf("6. Binário de 8 dígitos para Hexadecimal\n");
+        printf("5. Binario de 8 digitos para Decimal\n");
+        printf("6. Binario de 8 digitos para Hexadecimal\n");
         printf("7. Sair\n");
-        printf("Escolha uma opção: ");
+        printf("Escolha uma opcao: ");
         scanf("%d", &opcao);
 
         if (opcao >= 1 && opcao <= 6) {
-            printf("Digite o número a ser convertido: ");
+            printf("Digite o numero a ser convertido: ");
             scanf("%d", &numero);
         }
 
         if (opcao == 1) {
-            // Decimal para Binário
+            // Decimal para Binario
             resultado = 0;
             fator = 1;
             while (numero > 0) {
@@ -34,7 +34,7 @@ int main() {
                 fator *= 10;
                 numero /= 2;
             }
-            printf("Resultado em binário: %d\n", resultado);
+            printf("Resultado em binario: %d\n", resultado);
 
         } else if (opcao == 2) {
             // Decimal para Hexadecimal
@@ -77,7 +77,7 @@ int main() {
             printf("Resultado em decimal: %d\n", resultado);
 
         } else if (opcao == 5) {
-            // Binário de 8 dígitos para Decimal
+            // Binario de 8 digitos para Decimal
             resultado = 0;
             fator = 1;
             temp = numero;
@@ -90,7 +90,7 @@ int main() {
             printf("Resultado em decimal: %d\n", resultado);
 
         } else if (opcao == 6) {
-            // Binário de 8 dígitos para Hexadecimal
+            // Binario de 8 digitos para Hexadecimal
             // Primeiro converte para decimal
             resultado = 0;
             fator = 1;
@@ -119,11 +119,10 @@ int main() {
         } else if (opcao == 7) {
             printf("Encerrando o programa...\n");
         } else {
-            printf("Opção inválida!\n");
+            printf("Opcao invalida!\n");
         }
 
     } while (opcao != 7);
 
     return 0;
 }
-z
