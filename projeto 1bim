@@ -6,46 +6,46 @@ int main() {
     float area, volume;
     const float PI = 3.14159;
 
-    printf("=== CALCULADORA DE ÁREAS E VOLUMES ===\n");
-    printf("1. Área de um círculo\n");
-    printf("2. Área de um triângulo\n");
-    printf("3. Área de um retângulo\n");
+    printf("=== CALCULADORA DE AREAS E VOLUMES ===\n");
+    printf("1. Area de um circulo\n");
+    printf("2. Area de um triangulo\n");
+    printf("3. Area de um retangulo\n");
     printf("4. Volume de um cilindro\n");
     printf("5. Volume de um cone\n");
     printf("6. Volume de uma esfera\n");
-    printf("Escolha uma opção (1-6): ");
+    printf("Escolha uma opcao (1-6): ");
     scanf("%d", &opcao);
 
     if (opcao == 1) {
-        printf("\nDigite o raio do círculo: ");
+        printf("\nDigite o raio do circulo: ");
         scanf("%f", &raio);
         if (raio > 0) {
             area = PI * raio * raio;
-            printf("Área do círculo = %.2f\n", area);
+            printf("Area do circulo = %.2f\n", area);
         } else {
             printf("Erro: o raio deve ser positivo.\n");
         }
 
     } else if (opcao == 2) {
-        printf("\nDigite a base do triângulo: ");
+        printf("\nDigite a base do triangulo: ");
         scanf("%f", &base);
-        printf("Digite a altura do triângulo: ");
+        printf("Digite a altura do triangulo: ");
         scanf("%f", &altura);
         if (base > 0 && altura > 0) {
             area = (base * altura) / 2;
-            printf("Área do triângulo = %.2f\n", area);
+            printf("Area do triangulo = %.2f\n", area);
         } else {
             printf("Erro: base e altura devem ser positivas.\n");
         }
 
     } else if (opcao == 3) {
-        printf("\nDigite a largura do retângulo: ");
+        printf("\nDigite a largura do retangulo: ");
         scanf("%f", &largura);
-        printf("Digite a altura do retângulo: ");
+        printf("Digite a altura do retangulo: ");
         scanf("%f", &altura);
         if (largura > 0 && altura > 0) {
             area = largura * altura;
-            printf("Área do retângulo = %.2f\n", area);
+            printf("Area do retangulo = %.2f\n", area);
         } else {
             printf("Erro: largura e altura devem ser positivas.\n");
         }
@@ -85,7 +85,7 @@ int main() {
         }
 
     } else {
-        printf("Opção inválida!\n");
+        printf("Opcao invalida!\n");
     }
 
     printf("\nPrograma encerrado.\n");
